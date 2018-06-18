@@ -9,8 +9,19 @@
 #import <UIKit/UIKit.h>
 
 @interface ViewController : UIViewController
+{
+    
+    __weak IBOutlet UICollectionView *collectionViewForColor;
+    
+    __weak IBOutlet UICollectionView *collectionViewForStyle;
+    
+}
 
 - (IBAction)gotoExport:(id)sender;
+
+ 
+
+
 
 @end
 

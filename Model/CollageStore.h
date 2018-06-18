@@ -35,8 +35,6 @@
 @property(nonatomic)double width;
 @property(nonatomic)double height;
 @property(nonatomic,strong) AVAsset *asset;
-
-- (void) setBackGroundVideo:(AVAsset*)asset;
 - (void) setVideoPlayBackViewPosition;
 -(void)deselectThisView;
 

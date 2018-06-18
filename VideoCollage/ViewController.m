@@ -38,6 +38,9 @@
     __weak IBOutlet UIView *squareView;
     __weak IBOutlet NSLayoutConstraint *topSpaceOfSquareView;
     AVAssetExportSession *assetExport;
+    NSArray *currentArrayOfboder;
+    NSArray *colorArrayForCollegeView;
+    int current_v;
     
 }
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomSpaceOfStyleLayout;
@@ -49,6 +52,29 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
+    colorArrayForCollegeView = [[NSArray alloc] initWithObjects:
+                                [UIColor colorWithRed:95/255.0 green:125/255.0 blue:140/255.0 alpha:1.0],
+                                [UIColor colorWithRed: 158/255.0 green:158/255.0 blue:158/255.0 alpha:1.0],
+                                [UIColor colorWithRed:122/255.0 green:85/255.0 blue:71/255.0 alpha:1.0],
+                                [UIColor colorWithRed:255/255.0 green:87/255.0 blue:7/255.0 alpha:1.0],
+                                [UIColor colorWithRed:255/255.0 green:153/255.0 blue:0/255.0 alpha:1.0],
+                                [UIColor colorWithRed:255/255.0 green:194/255.0 blue:0/255.0 alpha:1.0],
+                                [UIColor colorWithRed:255/255.0 green:237/255.0 blue:24/255.0 alpha:1.0],
+                                [UIColor colorWithRed:205/255.0 green:222/255.0 blue:32/255.0 alpha:1.0],
+                                [UIColor colorWithRed:71/255.0 green:176/255.0 blue: 76/255.0 alpha:1.0],
+                                [UIColor colorWithRed:0/255.0 green:151/255.0 blue:136/255.0 alpha:1.0],
+                                [UIColor colorWithRed:0/255.0 green:188/255.0 blue:214/255.0 alpha:1.0],
+                                [UIColor colorWithRed:0/255.0 green:167/255.0 blue:247/255.0 alpha:1.0],
+                                [UIColor colorWithRed:17/255.0 green:148/255.0 blue:246/255.0 alpha:1.0],
+                                [UIColor colorWithRed:62/255.0 green:78/255.0 blue:184/255.0 alpha:1.0],
+                                [UIColor colorWithRed:103/255.0 green:52/255.0 blue:186/255.0 alpha:1.0],
+                                [UIColor colorWithRed:157/255.0 green:27/255.0 blue:178/255.0 alpha:1.0],
+                                [UIColor colorWithRed:236/255.0 green:21/255.0 blue:97/255.0 alpha:1.0],
+                                [UIColor colorWithRed:247/255.0 green:65/255.0 blue:45/255.0 alpha:1.0],nil];
+    
+    
     if(collageViewContainerArray==nil)
     {
         collageViewContainerArray=[[NSMutableArray alloc]init];
@@ -196,7 +222,15 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    return productIdsForCollege.count;
+    if([collectionView isEqual:collectionViewForStyle])
+        return productIdsForCollege.count;
+    else if([collectionView isEqual:collectionViewForColor])
+    {
+        return  colorArrayForCollegeView.count;
+    }
+    else
+        
+        return 0;
     
 }
 
@@ -217,8 +251,10 @@
     NSString *name=[NSString stringWithFormat:@"%d%@",(int)indexPath.row+1,@"c.png"];
     UIImage* img = [UIImage imageNamed:name];
     
-    
-    backgroundImage.image = img;
+    if([collectionView isEqual:collectionViewForStyle])
+        backgroundImage.image = img;
+    else
+        backgroundImage.backgroundColor=colorArrayForCollegeView[indexPath.row];
     UIImageView *lockImage= [cell viewWithTag:2001];
     
     
@@ -233,7 +269,7 @@
     }
     
     
-    if(indexPath.row==0 && forFirstLayout==NO)
+    if(indexPath.row==0 && forFirstLayout==NO && [collectionView isEqual:collectionViewForStyle])
     {
         
         
@@ -242,7 +278,10 @@
         [self changeView:buttonForLayout];
         forFirstLayout=YES;
     }
-    
+    if([collectionView isEqual:collectionViewForColor])
+    {
+        cell.layer.cornerRadius=cell.contentView.frame.size.width/2.0;
+    }
     
     return cell;
     
@@ -250,18 +289,24 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    currentIndexForLayout=(int)indexPath.row;
-    CollageStore  *obj;
-    NSDictionary *dict=productIdsForCollege[indexPath.row];
-    NSArray *arr=[dict objectForKey:@"box"];
-    for(int j=(int)arr.count;j<collageViewContainerArray.count;j++)
+    if([collectionView isEqual:collectionViewForStyle])
     {
-        obj=collageViewContainerArray[j];
-        obj.hidden=YES;
-        obj.viewForCollage.hidden=YES;
-        
+        currentIndexForLayout=(int)indexPath.row;
+        CollageStore  *obj;
+        NSDictionary *dict=productIdsForCollege[indexPath.row];
+        NSArray *arr=[dict objectForKey:@"box"];
+        for(int j=(int)arr.count;j<collageViewContainerArray.count;j++)
+        {
+            obj=collageViewContainerArray[j];
+            obj.hidden=YES;
+            obj.viewForCollage.hidden=YES;
+            
+        }
+        [self updateAllFramesForCollage:(int)indexPath.row];
     }
-    [self updateAllFramesForCollage:(int)indexPath.row];
+    else{
+        imageViewForBackGroundImage.backgroundColor=colorArrayForCollegeView[indexPath.row];
+    }
 }
 -(void)updateAllFramesForCollage:(int)index
 {
@@ -277,7 +322,8 @@
             NSArray *testArray = [temp componentsSeparatedByString:@","];
             dispatch_sync(dispatch_get_main_queue(), ^{
                 
-                NSLog(@"Call ======== %d", i+1);
+                self->currentArrayOfboder=testArray;
+                current_v=v;
                 [self updateCurrentCollageForFrame:testArray withValue:v];
                 
             });
@@ -371,12 +417,13 @@
         bp=paddingBetweenBox/2.0f;
     
     CGRect frame_n = CGRectMake(x*everyWidth + lp, y*everyheight + tp, everyWidth*width - rp - lp, everyheight*height - bp - tp);
+    
+    
     obj.x=x*everyWidth+lp;
     obj.y=y*everyheight+tp;
     obj.width=everyWidth*width - rp - lp;
     obj.height=everyheight*height - bp - tp;
-    
-    [obj setFrame:frame_n];
+    obj.frame=frame_n;
     [obj.viewForCollage setFrame:CGRectMake(0, 0, frame_n.size.width, frame_n.size.height)];
     obj.viewForCollage.backgroundColor=color;
     [obj.buttonForSelectingVideo setFrame:obj.viewForCollage.bounds];
@@ -428,6 +475,7 @@
         
         
         
+        
     });
     
     [picker dismissViewControllerAnimated:YES completion:^{
@@ -435,37 +483,23 @@
     
     
     
-    
-    
-    
-    
 }
 
 - (IBAction)gotoExport:(id)sender
 {
-    CollageStore *obj;
-    double minimumDuration=1000000000000000000;
-    for(int i=0;i<collageViewContainerArray.count;i++)
-    {
-        obj=collageViewContainerArray[i];
-        BOOL isHidden=[obj isHidden];
-        if(obj.width>0)
-        {
-            
-            AVAsset *asset=obj.asset;
-            CMTimeRange range = CMTimeRangeMake(kCMTimeZero, asset.duration);
-            
-            AVAssetTrack *assetTrack = [[asset tracksWithMediaType:AVMediaTypeVideo] firstObject];
-            
-            CGAffineTransform videoTransform = assetTrack.preferredTransform;
-            CGSize naturalSize = CGSizeApplyAffineTransform(assetTrack.naturalSize, videoTransform);
-            naturalSize = CGSizeMake(fabs(naturalSize.width), fabs(naturalSize.height));
-            
-          
-            
-            
-            
-        }
-    }
+    
 }
+
+- (IBAction)chnageDistanceBetweenBox:(UISlider *)sender {
+    
+    paddingBetweenBox=sender.value;
+    [self updateAllFramesForCollage:currentIndexForLayout];
+    
+}
+- (IBAction)changedCornerRadius:(UISlider *)sender {
+    cornerRadius=sender.value;
+    [self updateAllFramesForCollage:currentIndexForLayout];
+    
+}
+
 @end
