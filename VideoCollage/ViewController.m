@@ -10,6 +10,8 @@
 #import "CollageStore.h"
 #import <UIKit/UIKit.h>
 #import <MobileCoreServices/MobileCoreServices.h>
+#import "SoundManager.h"
+#import "AudioController.h"
 
 #define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
 
@@ -43,6 +45,7 @@
     int current_v;
     
 }
+@property (strong, nonatomic) AudioController *audioController;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomSpaceOfStyleLayout;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *heightConstrainForBottomView;
 
@@ -53,6 +56,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+    
+    self.audioController = [[AudioController alloc] init];
+    [self.audioController tryPlayMusic];
     
     colorArrayForCollegeView = [[NSArray alloc] initWithObjects:
                                 [UIColor colorWithRed:95/255.0 green:125/255.0 blue:140/255.0 alpha:1.0],

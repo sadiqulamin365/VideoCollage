@@ -38,6 +38,9 @@
 		CE4D2A2A20D5BFC900126AFB /* 8c.png in Resources */ = {isa = PBXBuildFile; fileRef = CE4D2A1720D5BFC900126AFB /* 8c.png */; };
 		CE4D2A2F20D5C77500126AFB /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CE4D2A2E20D5C77500126AFB /* bg.jpg */; };
 		CE4D2A3220D5C88300126AFB /* 1.mov in Resources */ = {isa = PBXBuildFile; fileRef = CE4D2A3120D5C88300126AFB /* 1.mov */; };
+		CE93E8ED20D82F75008FF356 /* 1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE93E8EC20D82F74008FF356 /* 1.mp3 */; };
+		CE93E8EF20D832CD008FF356 /* SoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE93E8EE20D832CD008FF356 /* SoundManager.m */; };
+		CE93E8F320D8375F008FF356 /* AudioController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE93E8F220D8375F008FF356 /* AudioController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +101,11 @@
 		CE4D2A1720D5BFC900126AFB /* 8c.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 8c.png; sourceTree = "<group>"; };
 		CE4D2A2E20D5C77500126AFB /* bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg.jpg; sourceTree = "<group>"; };
 		CE4D2A3120D5C88300126AFB /* 1.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = 1.mov; sourceTree = "<group>"; };
+		CE93E8EC20D82F74008FF356 /* 1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 1.mp3; sourceTree = "<group>"; };
+		CE93E8EE20D832CD008FF356 /* SoundManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundManager.m; sourceTree = "<group>"; };
+		CE93E8F020D832D6008FF356 /* SoundManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SoundManager.h; sourceTree = "<group>"; };
+		CE93E8F120D8375F008FF356 /* AudioController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioController.h; sourceTree = "<group>"; };
+		CE93E8F220D8375F008FF356 /* AudioController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +136,11 @@
 		CE4D299920D576CD00126AFB = {
 			isa = PBXGroup;
 			children = (
+				CE93E8F120D8375F008FF356 /* AudioController.h */,
+				CE93E8F220D8375F008FF356 /* AudioController.m */,
+				CE93E8EC20D82F74008FF356 /* 1.mp3 */,
+				CE93E8EE20D832CD008FF356 /* SoundManager.m */,
+				CE93E8F020D832D6008FF356 /* SoundManager.h */,
 				CE4D2A3020D5C81B00126AFB /* Video */,
 				CE4D2A2B20D5C6AA00126AFB /* Image */,
 				CE4D2A0420D5BFC900126AFB /* Collage */,
@@ -355,6 +368,7 @@
 				CE4D2A1F20D5BFC900126AFB /* 3c.png in Resources */,
 				CE4D2A2620D5BFC900126AFB /* 15c.png in Resources */,
 				CE4D2A2A20D5BFC900126AFB /* 8c.png in Resources */,
+				CE93E8ED20D82F75008FF356 /* 1.mp3 in Resources */,
 				CE4D2A2F20D5C77500126AFB /* bg.jpg in Resources */,
 				CE4D2A1C20D5BFC900126AFB /* 11c.png in Resources */,
 				CE4D29AD20D576CD00126AFB /* Main.storyboard in Resources */,
@@ -387,9 +401,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE93E8F320D8375F008FF356 /* AudioController.m in Sources */,
 				CE4D29AA20D576CD00126AFB /* ViewController.m in Sources */,
 				CE4D2A0320D5B70A00126AFB /* CollageStore.m in Sources */,
 				CE4D29B520D576CE00126AFB /* main.m in Sources */,
+				CE93E8EF20D832CD008FF356 /* SoundManager.m in Sources */,
 				CE4D29A720D576CD00126AFB /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
