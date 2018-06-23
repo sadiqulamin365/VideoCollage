@@ -171,7 +171,7 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QIn-ZS-XdL">
-                                        <rect key="frame" x="0.0" y="640" width="375" height="90"/>
+                                        <rect key="frame" x="0.0" y="312" width="375" height="90"/>
                                         <subviews>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="UtC-by-NRo">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
@@ -212,7 +212,7 @@
                                     <constraint firstItem="HVj-SQ-eKv" firstAttribute="top" secondItem="wam-Ak-g9o" secondAttribute="bottom" id="Bt6-dQ-wqN"/>
                                     <constraint firstItem="sCp-G9-FFD" firstAttribute="top" secondItem="jDX-5H-l4F" secondAttribute="top" id="DM1-9r-pRy"/>
                                     <constraint firstItem="KAD-q1-pJG" firstAttribute="leading" secondItem="jDX-5H-l4F" secondAttribute="leading" id="DdL-3V-BNv"/>
-                                    <constraint firstItem="QIn-ZS-XdL" firstAttribute="top" secondItem="HVj-SQ-eKv" secondAttribute="bottom" constant="-172" id="FvM-Mb-XF2"/>
+                                    <constraint firstItem="QIn-ZS-XdL" firstAttribute="top" secondItem="HVj-SQ-eKv" secondAttribute="bottom" constant="-500" id="FvM-Mb-XF2"/>
                                     <constraint firstItem="QIn-ZS-XdL" firstAttribute="height" secondItem="wam-Ak-g9o" secondAttribute="height" id="GOI-eY-KNF"/>
                                     <constraint firstAttribute="trailing" secondItem="QIn-ZS-XdL" secondAttribute="trailing" id="My4-CL-cxY"/>
                                     <constraint firstItem="QIn-ZS-XdL" firstAttribute="leading" secondItem="jDX-5H-l4F" secondAttribute="leading" id="OfD-Xh-3nS"/>

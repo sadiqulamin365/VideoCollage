@@ -367,9 +367,15 @@
     }
     else{
         heightForView.constant=temp_height;
+        double topSpace=(self.view.frame.size.height-extraPoint-viewForButton.frame.size.height-temp_height)/2.0;
+        topSpaceOfSquareView.constant=topSpace;
     }
     
-     [self updateAllFramesForCollage:currentIndexForLayout];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+       [self updateAllFramesForCollage:(int)currentIndexForLayout];
+    });
+    
     
     
     
@@ -408,43 +414,45 @@
     float everyWidth=squareView.frame.size.width/3;
     float everyheight=(squareView.frame.size.height)/3;
     UIColor *color;
-    if(v==1)
-    {
-        color=[UIColor greenColor];
-    }
-    else if(v==2)
-    {
-        color=[UIColor blueColor];
-    }
-    else if(v==3)
-    {
-        color=[UIColor cyanColor];
-    }
-    else if(v==4)
-    {
-        color=[UIColor blackColor];
-    }
-    else if(v==5)
-    {
-        color=[UIColor magentaColor];
-    }
-    else if(v==6)
-    {
-        color=[UIColor purpleColor];
-    }
-    else if(v==7)
-    {
-        color=[UIColor greenColor];
-    }
-    else if(v==8)
-    {
-        color=[UIColor yellowColor];
-    }
-    else if(v==9)
-    {
-        color=[UIColor orangeColor];
-        
-    }
+    squareView.backgroundColor=[UIColor clearColor];
+    imageViewForBackGroundImage.backgroundColor=[UIColor clearColor];
+//    if(v==1)
+//    {
+//        color=[UIColor greenColor];
+//    }
+//    else if(v==2)
+//    {
+//        color=[UIColor blueColor];
+//    }
+//    else if(v==3)
+//    {
+//        color=[UIColor cyanColor];
+//    }
+//    else if(v==4)
+//    {
+//        color=[UIColor blackColor];
+//    }
+//    else if(v==5)
+//    {
+//        color=[UIColor magentaColor];
+//    }
+//    else if(v==6)
+//    {
+//        color=[UIColor purpleColor];
+//    }
+//    else if(v==7)
+//    {
+//        color=[UIColor greenColor];
+//    }
+//    else if(v==8)
+//    {
+//        color=[UIColor yellowColor];
+//    }
+//    else if(v==9)
+//    {
+//        color=[UIColor orangeColor];
+//
+//    }
     
     CollageStore *obj;
     obj=collageViewContainerArray[v];
