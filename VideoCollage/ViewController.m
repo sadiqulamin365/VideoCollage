@@ -27,6 +27,11 @@
     double valueNeedToUpTheStyle;
     NSURL *plistUrlForCollege;
     NSArray *productIdsForCollege;
+    
+    
+    NSURL *plistUrlForRatio;
+    NSArray *productIdsForRatio;
+    
     int currentIndexForLayout;
     BOOL forFirstLayout;
     double paddingBetweenBox;
@@ -43,7 +48,11 @@
     NSArray *currentArrayOfboder;
     NSArray *colorArrayForCollegeView;
     int current_v;
+    __weak IBOutlet NSLayoutConstraint *heightForView;
+    double extraPoint;
     
+    __weak IBOutlet NSLayoutConstraint *widthForView;
+    int lastIndexForStyle;
 }
 @property (strong, nonatomic) AudioController *audioController;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomSpaceOfStyleLayout;
@@ -56,10 +65,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
+    lastIndexForStyle=0;
     
     self.audioController = [[AudioController alloc] init];
-    [self.audioController tryPlayMusic];
+   // [self.audioController tryPlayMusic];
     
     colorArrayForCollegeView = [[NSArray alloc] initWithObjects:
                                 [UIColor colorWithRed:95/255.0 green:125/255.0 blue:140/255.0 alpha:1.0],
@@ -102,6 +111,13 @@
     plistUrlForCollege = [[NSBundle mainBundle] URLForResource:@"collage" withExtension:@"plist"];
     productIdsForCollege = [NSArray arrayWithContentsOfURL:plistUrlForCollege];
     
+    
+    plistUrlForRatio = [[NSBundle mainBundle] URLForResource:@"ratio" withExtension:@"plist"];
+    productIdsForRatio = [NSArray arrayWithContentsOfURL:plistUrlForRatio];
+    
+    
+   
+    
 }
 
 
@@ -112,9 +128,9 @@
 -(void)createUI
 {
     
+   
     
-    
-    double extraPoint=20;
+     extraPoint=20;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         CGSize screenSize = [[UIScreen mainScreen] bounds].size;
         if (screenSize.height == 812)
@@ -136,10 +152,13 @@
     _bottomSpaceOfStyleLayout.constant=valueNeedToUpTheStyle;
     
     [self.view addSubview:viewForButton];
+    
+     heightForView.constant=self.view.frame.size.width;
+    widthForView.constant=self.view.frame.size.width;
     scrollViewForButton=[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, viewForButton.frame.size.height)];
     [viewForButton addSubview:scrollViewForButton];
     
-    double topSpace=(self.view.frame.size.height-extraPoint-viewForButton.frame.size.height-squareView.frame.size.height)/2.0;
+    double topSpace=(self.view.frame.size.height-extraPoint-viewForButton.frame.size.height-self.view.frame.size.width)/2.0;
     topSpaceOfSquareView.constant=topSpace;
     
     for(int i=0;i<7;i++)
@@ -192,6 +211,11 @@
     viewForButton.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:248.0/255.0 alpha:1.0];
     gapViewForIphoneX.backgroundColor=viewForButton.backgroundColor;
     
+    
+    [self updateAllFramesForCollage:0];
+    UIButton *buttonForLayout=(UIButton *)[self.view viewWithTag:8000];
+    [self changeView:buttonForLayout];
+    
 }
 -(void)changeView:(id)sender
 {
@@ -235,7 +259,10 @@
     {
         return  colorArrayForCollegeView.count;
     }
-    else
+    else if([collectionView isEqual:collectionViewForRatio])
+    {
+        return productIdsForRatio.count;
+    }
         
         return 0;
     
@@ -260,8 +287,14 @@
     
     if([collectionView isEqual:collectionViewForStyle])
         backgroundImage.image = img;
-    else
+    else if([collectionView isEqual:collectionViewForColor])
         backgroundImage.backgroundColor=colorArrayForCollegeView[indexPath.row];
+    else
+        
+    {
+        backgroundImage.image=[UIImage imageNamed:[NSString stringWithFormat:@"%ld%@",(long)indexPath.row+1,@".png"]];
+    }
+        
     UIImageView *lockImage= [cell viewWithTag:2001];
     
     
@@ -276,15 +309,6 @@
     }
     
     
-    if(indexPath.row==0 && forFirstLayout==NO && [collectionView isEqual:collectionViewForStyle])
-    {
-        
-        
-        [self updateAllFramesForCollage:(int)indexPath.row];
-        UIButton *buttonForLayout=(UIButton *)[self.view viewWithTag:8000];
-        [self changeView:buttonForLayout];
-        forFirstLayout=YES;
-    }
     if([collectionView isEqual:collectionViewForColor])
     {
         cell.layer.cornerRadius=cell.contentView.frame.size.width/2.0;
@@ -309,11 +333,46 @@
             obj.viewForCollage.hidden=YES;
             
         }
+        currentIndexForLayout=(int)indexPath.row;
         [self updateAllFramesForCollage:(int)indexPath.row];
     }
-    else{
+    else if([collectionView isEqual:collectionViewForColor]){
         imageViewForBackGroundImage.backgroundColor=colorArrayForCollegeView[indexPath.row];
     }
+    else{
+        [self updateSquareView:(int)indexPath.row];
+    }
+}
+-(void)updateSquareView:(int)index
+{
+    NSDictionary *dic1=productIdsForRatio[index];
+    NSArray *testArray = [[dic1 objectForKey:@"Ratio"] componentsSeparatedByString:@":"];
+    
+    double temp_height=[testArray [1] doubleValue]/[testArray[0] doubleValue];
+    temp_height=temp_height*self.view.frame.size.width;
+    
+    
+      double topSpace=(self.view.frame.size.height-extraPoint-viewForButton.frame.size.height-temp_height)/2.0;
+    
+    if(topSpace<0)
+    {
+        heightForView.constant=self.view.frame.size.height-extraPoint-viewForButton.frame.size.height;
+        
+        double temp_width=[testArray [0] intValue]/[testArray[1] intValue];
+        temp_width=temp_width* heightForView.constant;
+        widthForView.constant=temp_width;
+        
+        
+        
+    }
+    else{
+        heightForView.constant=temp_height;
+    }
+    
+     [self updateAllFramesForCollage:currentIndexForLayout];
+    
+    
+    
 }
 -(void)updateAllFramesForCollage:(int)index
 {
@@ -330,7 +389,7 @@
             dispatch_sync(dispatch_get_main_queue(), ^{
                 
                 self->currentArrayOfboder=testArray;
-                current_v=v;
+                self->current_v=v;
                 [self updateCurrentCollageForFrame:testArray withValue:v];
                 
             });

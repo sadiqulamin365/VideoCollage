@@ -15,6 +15,7 @@
     
     __weak IBOutlet UICollectionView *collectionViewForStyle;
     
+    __weak IBOutlet UICollectionView *collectionViewForRatio;
 }
 
 - (IBAction)gotoExport:(id)sender;
